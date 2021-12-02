@@ -1,4 +1,3 @@
-title: github blog copy 블로그 시작
 ---
 layout: single
 title: "github.io 블로그 시작하기"
