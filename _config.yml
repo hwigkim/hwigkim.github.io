@@ -104,8 +104,8 @@ analytics:
 author:
   name             : "hwigkim"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
+  bio              : "하루 살기 바쁜 사람."
+  location         : "Anywhere, or Everywhere"
   email            :
   links:
     - label: "Email"
