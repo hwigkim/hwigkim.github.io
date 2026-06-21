@@ -13,7 +13,7 @@ Tufte CSS 기반 블로그에 오신 것을 환영합니다! 이 블로그는 Pa
     <li>
       <a href="{{ post.url | relative_url }}">{{ post.title }}</a> &mdash; {{ post.date | date: "%Y년 %m월 %d일" }}
     </li>
-  {% empty %}
+  {% else %}
     <li>아직 작성된 글이 없습니다.</li>
   {% endfor %}
 </ul>
