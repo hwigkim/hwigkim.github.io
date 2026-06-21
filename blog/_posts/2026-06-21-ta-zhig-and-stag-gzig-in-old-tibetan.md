@@ -1,6 +1,6 @@
 ---
 layout: default
-title: ""Ta zhig" and "sTag gzig" in Old Tibetan"
+title: '"Ta zhig" and "sTag gzig" in Old Tibetan'
 subtitle: "The name of Persia and its reflection of pronunciation changes in Tibetic languages"
 date: 2026-06-21
 author: "Hwigkim"
@@ -26,7 +26,6 @@ The abbreviation KK is *bka' chems ka khol ma*, the 'Pillar Testament' attribute
 
 ## Conclusion
 So I think the form *sTag gzig* appeared in the last stage of Old Tibetan, instead, the form *Ta zhig* reflects the earlier stages of Old Tibetan pronunciation. But we have to search Dunhuang corpus for more evidence.
-
 
 [^a]: I couldn't find it in OTDO when I wrote it, so further investigation is needed.
 [^b]: Now OTA is newly translated in *Old Literary Tibetan* by Bialek in 2026. Jan. 
