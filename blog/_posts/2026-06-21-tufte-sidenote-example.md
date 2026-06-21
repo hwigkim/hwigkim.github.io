@@ -1,35 +1,33 @@
 ---
 layout: default
-title: "실험"
-subtitle: "ㅇㅇ"
+title: "*Ta zhig* and *sTag gzig* in Old Tibetan, "
+subtitle: "The name of Persia and its reflection of changes in Tibetic languages"
 date: 2026-06-21
-author: "Antigravity"
+author: "Hwigkim"
 ---
+2025년 9월 20일에 누군가의 질문에 답변하여 쓴 글이다. 아주 짧은 시간을 들여 간단하게 쓴 글이며, 당시에 접속이 되지 않거나 출간되지 않았던 자료는 검토하지 않았다.
 
-이 글은 Jekyll + Pandoc + Tufte CSS 블로그에서 각주가 실제로 우측 영역의 사이드노트로 어떻게 렌더링되는지 확인하기 위한 테스트 글입니다.
+티베트어는 다른 언어들과 마찬가지로 시대에 따라 발음이 크게 변했다. 그 표기와 발음의 괴리는 티베트어의 옛 발음이 표기상으로 보존되고 있음을 보여주지만, 정말 그것이 토번제국 시기의 고대 티베트어 혹은 고전 티베트어가 성립된 티베트 불교 후흥기 초의 양상을 보여주고 있는지는 고민할 필요가 있다.
 
-Tufte CSS는 에드워드 터프티(Edward Tufte)의 도서 디자인 철학을 따릅니다. 본문을 읽는 도중에 시선을 빼앗기지 않도록, 각주를 문서 하단에 모아두는 대신 본문의 바로 옆 공간(margin)에 배치하는 것이 특징입니다.
+이 글은 페르시아를 지칭하는 *Ta zhig*과 *sTag gzig*를 비교한다. *Ta zhig*은 타지크 Tajik의 음차이지만, *sTag gzig*은 "호랑이-표범'의 의미이다. 나는 이것이 티베트어의 발음 변화가 일어난 뒤 후대 티베트인들이 이 단어에 새로운 어원을 부여한 결과라고 생각한다.
 
-### 1. 기본 사이드노트 (Sidenote) 테스트
+## "Ta zhig" in Old Tibetan (OT)
+In *Old Tibetan Inscriptions* (2009) edited by Hill and Iwao, there is no *stag gzig* but *ta zhig*. 
+- "Inscription at the 'Phyong rgyas bridge"(ca. 797)
+- "The Rkong po Bde mo sa inscription", written in the reign of Tride Songtsen (ca 799-815)
+- the east face of "The Sino-Tibetan treaty inscription of 821-822"
 
-문장의 일부분에 각주를 달아보겠습니다. 마크다운의 표준 각주 문법인 `[^1]`을 사용합니다. 
-이 텍스트 바로 뒤에 각주가 위치합니다.[^1] Pandoc Lua 필터는 이 각주를 감지하여 웹 브라우저의 오른쪽 마진 영역에 아름다운 사이드노트로 자동 배치해 줍니다. 
+Although it cannot prove the absence of *stag gzig* in OT, but the *ta zhig* seems to be used more often in OTI.[^a]
 
-### 2. 마진노트 (Marginnote) 테스트
+I found *sTag gzig* in the comment of the *Old Tibetan Annals* (2009: p.168) translated by Dotson.
+> In the same catalogue (KK 320.18–321.7) there is also mention of a khas-dpon of the land of the “Dru-gu (Western Turks) in the North” (namely chos blon Lam-sde Khri-bzang lo-btsan), a khas-dpon of “China in the East” (Mchims Mang-rje mang-lod) and a khas-blon of “Stag-gzig in the West” (minister Snubs Gna'-stong-re gtsug-snon...) 
 
-사이드노트에는 번호가 붙지만, 번호 없이 참고 이미지나 추가 설명만 우측 마진에 넣고 싶을 때가 있습니다. 이를 **마진노트**라고 부릅니다. 
-우리가 설치한 Lua 필터는 각주 내용의 처음에 `{-}` 표시를 넣으면 번호가 없는 마진노트로 변환해 줍니다.[^2]
+The abbreviation KK is *bka' chems ka khol ma*, the 'Pillar Testament' attributed to Songtsen Gampo, which is considered to date from imperial Tibet. But it's more likely to be written in 11th century or later (but can be based on much older texts). [^c]
 
-### 3. 본문 내의 서체 및 인용구
+## Conclusion
+So I think the form *sTag gzig* appeared in the last stage of Old Tibetan, instead, the form *Ta zhig* reflects the earlier stages of Old Tibetan pronunciation. But we have to search Dunhuang corpus for more evidence.
 
-Tufte CSS는 전통 서체(et-book 서체)와 이탤릭체의 조화를 중요하게 여깁니다. *이탤릭체로 강조된 텍스트*와 **볼드체로 강조된 텍스트**가 어떻게 표현되는지 확인할 수 있습니다.
 
-또한 터프티 스타일의 인용구(Blockquote)도 아래와 같이 우측 여백을 적극 활용하여 렌더링됩니다.
-
-> "지식의 가치는 그것이 얼마나 명확하고 풍부하게 전달되는가에 달려있다."
-> &mdash; Edward Tufte
-
-이 샘플 글을 GitHub 리포지토리에 커밋하고 푸시하면 GitHub Actions를 통해 Pandoc 빌드가 수행되고, 브라우저에서 아름다운 터프티 스타일의 지면을 감상할 수 있습니다.
-
-[^1]: 이 내용은 본문 오른쪽에 번호와 함께 배치되는 사이드노트(Sidenote)입니다. 모바일 화면처럼 폭이 좁은 모바일 브라우저에서는 탭을 하면 나타납니다.
-[^2]: {-} 이것은 번호가 없는 마진노트(Marginnote)입니다. 본문 옆에 간단한 보충 설명이나 팁을 적어둘 때 유용합니다.
+[^a]: I couldn't find it in OTDO when I wrote it, so further investigation is needed.
+[^b]: Now OTA is newly translated in *Old Literary Tibetan* by Bialek in 2026. Jan. 
+[^c]: See van der Kuijp, "Tibetan Historiography," *Tibetan Literature: Studies in Genre*, 1996, pp. 47f.
