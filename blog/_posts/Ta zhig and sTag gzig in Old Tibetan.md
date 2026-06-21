@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "*Ta zhig* and *sTag gzig* in Old Tibetan, "
-subtitle: "The name of Persia and its reflection of changes in Tibetic languages"
+title: ""Ta zhig" and "sTag gzig" in Old Tibetan"
+subtitle: "The name of Persia and its reflection of pronunciation changes in Tibetic languages"
 date: 2026-06-21
 author: "Hwigkim"
 ---
