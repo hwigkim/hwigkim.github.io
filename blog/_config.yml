@@ -1,0 +1,22 @@
+title: "Tufte & Pandoc Blog"
+author: "Your Name"
+description: "A Jekyll blog using Tufte CSS and Pandoc for footnotes/sidenotes"
+url: ""
+
+# Jekyll Markdown Configuration
+markdown: Pandoc
+pandoc:
+  arguments: [
+    "--lua-filter=pandoc-filters/pandoc-sidenote.lua"
+  ]
+
+# Exclusion list
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - .github/

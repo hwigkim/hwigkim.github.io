@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/tufte.css' | relative_url }}">
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}">
+  {% else %}
+  <meta name="description" content="{{ site.description }}">
+  {% endif %}
+</head>
+<body>
+  <article>
+    <h1>{{ page.title | default: site.title }}</h1>
+    {% if page.subtitle %}
+    <p class="subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+    
+    {% if page.author or page.date %}
+    <p class="author">
+      <strong>{{ page.author | default: site.author }}</strong>
+      {% if page.date %}
+      <span class="date">&nbsp;&middot;&nbsp;{{ page.date | date: "%Y년 %m월 %d일" }}</span>
+      {% endif %}
+    </p>
+    {% endif %}
+
+    <section>
+      {{ content }}
+    </section>
+  </article>
+</body>
+</html>
