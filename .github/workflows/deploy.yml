@@ -32,17 +32,21 @@ jobs:
         with:
           ruby-version: '3.1'
           bundler-cache: true
+          working-directory: blog
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Build with Jekyll
+        working-directory: blog
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: blog/_site
 
       - name: Deploy to GitHub Pages
         id: deployment
