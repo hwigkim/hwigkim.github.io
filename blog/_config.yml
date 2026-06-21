@@ -10,6 +10,10 @@ pandoc:
     "--lua-filter=pandoc-filters/pandoc-sidenote.lua"
   ]
 
+# Jekyll Plugins
+plugins:
+  - jekyll-pandoc
+
 # Exclusion list
 exclude:
   - Gemfile
