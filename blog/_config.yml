@@ -6,7 +6,7 @@ url: ""
 # Jekyll Markdown Configuration
 markdown: Pandoc
 pandoc:
-  arguments: [
+  extensions: [
     "--lua-filter=pandoc-filters/pandoc-sidenote.lua"
   ]
 

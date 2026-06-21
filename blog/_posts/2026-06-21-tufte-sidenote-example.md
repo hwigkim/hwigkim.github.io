@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "Tufte CSS와 Pandoc 각주 테스트"
-subtitle: "마크다운 각주 문법으로 깔끔한 사이드노트 만들기"
+title: "실험"
+subtitle: "ㅇㅇ"
 date: 2026-06-21
 author: "Antigravity"
 ---
