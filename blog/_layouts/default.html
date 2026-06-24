@@ -720,39 +720,86 @@
   })();
   </script>
 
-  <!-- Mermaid.js 로드 및 초기화 -->
+  <!-- Mermaid.js 로드 및 초기화 (예외처리 및 Fallback 스크립트 대응 버전) -->
   <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: false });
-
     async function initMermaid() {
+      let mermaid;
+      try {
+        // 1. ES 모듈 방식으로 임포트 시도
+        const module = await import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs');
+        mermaid = module.default;
+      } catch (e) {
+        console.warn("ESM Mermaid import failed, fallback to classic script tag.", e);
+        // 2. ESM 실패 시 일반 스크립트 태그를 통해 전역 로드 시도
+        try {
+          await new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+            script.onload = () => {
+              mermaid = window.mermaid;
+              resolve();
+            };
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+        } catch (err) {
+          console.error("Failed to load Mermaid library:", err);
+          return;
+        }
+      }
+
+      if (!mermaid) return;
+
+      mermaid.initialize({ startOnLoad: false });
+
       // Jekyll Rouge가 생성한 하이라이터 div 및 일반 Kramdown pre/code 탐색
       const blocks = document.querySelectorAll('.language-mermaid, [class*="language-mermaid"]');
       let hasMermaid = false;
 
-      blocks.forEach(function(block) {
-        if (block.classList.contains('mermaid')) return;
+      // 부모-자식 관계에 의한 중복 매칭 방지 필터링 (최상위 부모 컨테이너만 타겟)
+      const topBlocks = Array.from(blocks).filter(block => {
+        let parent = block.parentNode;
+        while (parent && parent !== document.body) {
+          if (Array.from(blocks).includes(parent)) {
+            return false;
+          }
+          parent = parent.parentNode;
+        }
+        return true;
+      });
 
-        // block 자체가 code가 아니면 내부의 code 태그를 찾아 텍스트를 추출
-        const codeElement = block.tagName === 'CODE' ? block : block.querySelector('code');
-        if (!codeElement) return;
+      topBlocks.forEach(function(block) {
+        try {
+          if (block.classList.contains('mermaid')) return;
+          if (!block.parentNode) return;
 
-        const rawText = codeElement.textContent;
-        
-        // 부모 container를 <div class="mermaid">로 교체
-        const div = document.createElement('div');
-        div.className = 'mermaid';
-        div.textContent = rawText;
-        
-        block.parentNode.replaceChild(div, block);
-        hasMermaid = true;
+          // block 자체가 code가 아니면 내부의 code 태그를 찾아 텍스트를 추출
+          const codeElement = block.tagName === 'CODE' ? block : block.querySelector('code');
+          if (!codeElement) return;
+
+          const rawText = codeElement.textContent;
+          
+          // 부모 container를 <div class="mermaid">로 교체
+          const div = document.createElement('div');
+          div.className = 'mermaid';
+          div.textContent = rawText;
+          
+          block.parentNode.replaceChild(div, block);
+          hasMermaid = true;
+        } catch (err) {
+          console.error("Error transforming mermaid block:", err);
+        }
       });
 
       // 변환이 일어났거나 기존에 .mermaid 클래스가 존재할 경우 렌더링 실행
       if (hasMermaid || document.querySelector('.mermaid')) {
-        await mermaid.run({
-          querySelector: '.mermaid'
-        });
+        try {
+          await mermaid.run({
+            querySelector: '.mermaid'
+          });
+        } catch (runErr) {
+          console.error("Mermaid run failed:", runErr);
+        }
       }
     }
 
