@@ -47,6 +47,10 @@ jobs:
           pip install "setuptools<82.0.0"
           pip install pyewts --no-build-isolation
 
+      - name: Print Post Content
+        run: |
+          cat blog/_posts/2026-06-24-tibetan-wylie-test.md > blog/post_content.txt
+
       - name: Build with Jekyll
         working-directory: blog
         run: bundle exec jekyll build
