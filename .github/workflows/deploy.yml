@@ -47,9 +47,6 @@ jobs:
           pip install "setuptools<82.0.0"
           pip install pyewts --no-build-isolation
 
-      - name: Preprocess Tibetan Wylie
-        run: python preprocess.py
-
       - name: Build with Jekyll
         working-directory: blog
         run: bundle exec jekyll build
