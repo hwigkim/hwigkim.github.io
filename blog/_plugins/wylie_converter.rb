@@ -11,42 +11,44 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
   
   $wylie_logs << "--- Processing: #{doc.path} ---"
   
-  content = doc.content
-  if content && content.include?('tibwc*')
-    $wylie_logs << "Found 'tibwc*' keyword in #{doc.path}"
+  begin
+    content = doc.content
+    if content && content.include?('tibwc*')
+      $wylie_logs << "Found 'tibwc*' keyword in #{doc.path}"
 
-    # 파이썬을 서브프로세스로 실행하여 Wylie 표기를 티베트 유니코드로 변환
-    # PYTHONUTF8=1 환경변수를 설정하여 윈도우 인코딩 오류 방지
-    python_code = <<~PYTHON
-      import sys, re, pyewts
-      converter = pyewts.pyewts()
-      text = sys.stdin.read()
-      # tibwc*wylie* 패턴을 찾아 변환
-      result = re.sub(r"tibwc\*(.*?)\*", lambda m: f"{converter.toUnicode(m.group(1))} *{m.group(1)}*", text)
-      sys.stdout.write(result)
-    PYTHON
+      # 파이썬을 서브프로세스로 실행하여 Wylie 표기를 티베트 유니코드로 변환
+      # PYTHONUTF8=1 환경변수를 설정하여 윈도우 인코딩 오류 방지
+      python_code = <<~PYTHON
+        import sys, re, pyewts
+        converter = pyewts.pyewts()
+        text = sys.stdin.read()
+        # tibwc*wylie* 패턴을 찾아 변환
+        result = re.sub(r"tibwc\*(.*?)\*", lambda m: f"{converter.toUnicode(m.group(1))} *{m.group(1)}*", text)
+        sys.stdout.write(result)
+      PYTHON
 
-    stdout, stderr, status = Open3.capture3(
-      {"PYTHONUTF8" => "1"},
-      "python", "-c", python_code,
-      stdin_data: content
-    )
+      stdout, stderr, status = Open3.capture3(
+        {"PYTHONUTF8" => "1"},
+        "python", "-c", python_code,
+        stdin_data: content
+      )
 
-    stdout.force_encoding("UTF-8")
-    stderr.force_encoding("UTF-8")
+      stdout.force_encoding("UTF-8")
+      stderr.force_encoding("UTF-8")
 
-    $wylie_logs << "Python subprocess success: #{status.success?}"
-    $wylie_logs << "Stdout length: #{stdout.length}"
-    $wylie_logs << "Stderr: #{stderr}"
-    if status.success?
-      $wylie_logs << "Sample output: #{stdout[0..300]}"
+      $wylie_logs << "Python subprocess success: #{status.success?}"
+      $wylie_logs << "Stdout length: #{stdout.length}"
+      $wylie_logs << "Stderr: #{stderr.strip}"
+      if status.success?
+        $wylie_logs << "Sample output: #{stdout[0..300]}"
+        doc.content = stdout
+      else
+        $wylie_logs << "Python script failed with status: #{status.inspect}"
+      end
     end
-
-    if status.success?
-      doc.content = stdout
-    else
-      raise "Wylie Converter [Error] on #{doc.path}: #{stderr}"
-    end
+  rescue => e
+    $wylie_logs << "Hook raised exception: #{e.class} - #{e.message}"
+    $wylie_logs << e.backtrace.join("\n")
   end
 end
 
