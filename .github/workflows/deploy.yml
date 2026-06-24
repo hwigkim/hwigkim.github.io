@@ -49,7 +49,7 @@ jobs:
 
       - name: Diagnostic Python Check
         run: |
-          python -c "import pyewts; converter = pyewts.pyewts(); val = converter.toUnicode('bod'); print('val:', repr(val), 'bytes:', val.encode('utf-8'))"
+          python -c "import pyewts; converter = pyewts.pyewts(); val = converter.toUnicode('bod'); print('val:', repr(val), 'bytes:', val.encode('utf-8'))" > blog/diag.txt
 
 
       - name: Build with Jekyll
