@@ -164,12 +164,13 @@ blockquote {
 }
 
 blockquote p {
-    width: 55%;
+    width: calc(55% - 2.5rem);
     margin-left: 2.5rem;
 }
 
 blockquote footer {
-    width: 55%;
+    width: calc(55% - 2.5rem);
+    margin-left: 2.5rem;
     font-size: 1.1rem;
     text-align: right;
 }
@@ -368,7 +369,7 @@ label.margin-toggle:not(.sidenote-number) {
 .hanging-indent {
     padding-left: 2em;
     text-indent: -2em;
-    width: 55%;
+    width: calc(55% - 2em);
     margin-bottom: 1.5rem;
 }
 
@@ -382,9 +383,12 @@ label.margin-toggle:not(.sidenote-number) {
     hr,
     section > p,
     section > footer,
-    section > table,
-    .hanging-indent {
+    section > table {
         width: 100%;
+    }
+
+    .hanging-indent {
+        width: calc(100% - 2em);
     }
 
     pre > code {
