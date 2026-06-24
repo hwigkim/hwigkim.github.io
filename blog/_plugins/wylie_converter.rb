@@ -1,4 +1,5 @@
 require 'open3'
+require 'fileutils'
 
 Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
   # 파일 경로가 없거나 마크다운 파일이 아니면 건너뜁니다.
@@ -6,8 +7,21 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
   ext = File.extname(doc.path).downcase
   next unless ext == '.md' || ext == '.markdown'
   
+  # 디버그 로그 파일 경로 설정
+  debug_dir = doc.site.dest
+  FileUtils.mkdir_p(debug_dir)
+  debug_file = File.join(debug_dir, "wylie_debug.txt")
+  
+  File.open(debug_file, "a:utf-8") do |f|
+    f.puts "--- Processing: #{doc.path} ---"
+  end
+  
   content = doc.content
   if content && content.include?('tibwc*')
+    File.open(debug_file, "a:utf-8") do |f|
+      f.puts "Found 'tibwc*' keyword in #{doc.path}"
+    end
+
     # 파이썬을 서브프로세스로 실행하여 Wylie 표기를 티베트 유니코드로 변환
     # PYTHONUTF8=1 환경변수를 설정하여 윈도우 인코딩 오류 방지
     python_code = <<~PYTHON
@@ -27,6 +41,15 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
 
     stdout.force_encoding("UTF-8")
     stderr.force_encoding("UTF-8")
+
+    File.open(debug_file, "a:utf-8") do |f|
+      f.puts "Python subprocess success: #{status.success?}"
+      f.puts "Stdout length: #{stdout.length}"
+      f.puts "Stderr: #{stderr}"
+      if status.success?
+        f.puts "Sample output: #{stdout[0..300]}"
+      end
+    end
 
     if status.success?
       doc.content = stdout
