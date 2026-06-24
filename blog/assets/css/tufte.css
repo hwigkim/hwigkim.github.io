@@ -118,7 +118,7 @@ dl,
 ol,
 ul {
     font-size: 1.4rem;
-    line-height: 2rem;
+    line-height: 2.6rem;
 }
 
 p {
@@ -211,7 +211,7 @@ figcaption {
     margin-top: 0;
     margin-bottom: 0;
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 2.08;
     vertical-align: baseline;
     position: relative;
     max-width: 40%;
@@ -242,7 +242,7 @@ img {
     margin-top: 0.3rem;
     margin-bottom: 0;
     font-size: 1.1rem;
-    line-height: 1.3;
+    line-height: 1.69;
     vertical-align: baseline;
     position: relative;
 }
@@ -296,7 +296,7 @@ div.table-wrapper {
 code, pre > code {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 1.0rem;
-    line-height: 1.42;
+    line-height: 1.85;
     -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. See https://github.com/edwardtufte/tufte-css/issues/81#issuecomment-261953409 */
 }
 
@@ -343,7 +343,7 @@ input.margin-toggle {
 
 label.sidenote-number {
     display: inline-block;
-    max-height: 2rem; /* should be less than or equal to paragraph line-height */
+    max-height: 2.6rem; /* should be less than or equal to paragraph line-height */
 }
 
 label.margin-toggle:not(.sidenote-number) {
