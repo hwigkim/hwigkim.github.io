@@ -29,8 +29,8 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
         converter = pyewts.pyewts()
         text = sys.stdin.read()
         sys.stderr.write(f"Python stdout encoding: {sys.stdout.encoding}, stdin: {sys.stdin.encoding}\n")
-        # tibwc*wylie* 패턴을 찾아 변환
-        result = re.sub(r"tibwc\*(.*?)\*", lambda m: f"{converter.toUnicode(m.group(1))} *{m.group(1)}*", text)
+        # tibwc*wylie* 패턴을 찾아 변환 (줄바꿈을 넘지 않도록 제한)
+        result = re.sub(r"tibwc\*([^\*\n]+)\*", lambda m: f"{converter.toUnicode(m.group(1))} *{m.group(1)}*", text)
         sys.stdout.write(result)
       PYTHON
 
