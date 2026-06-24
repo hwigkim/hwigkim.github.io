@@ -348,19 +348,19 @@ subtitle: "Tibetology & Sinology"
 
 <!-- 레이아웃 요소 삽입 -->
 <button id="sidebar-toggle-btn" aria-label="태그 목록 토글">
-  <span class="toggle-icon">⊕</span>
-  <span class="toggle-text">태그 목록</span>
+<span class="toggle-icon">⊕</span>
+<span class="toggle-text">태그 목록</span>
 </button>
 
 <div id="sidebar-overlay"></div>
 
 <aside id="sidebar">
-  <div class="sidebar-header">
-    <h3 class="sidebar-title">태그 목록</h3>
-  </div>
-  <ul class="tag-list" id="tag-list-container">
-    <!-- 자바스크립트로 동적 생성됨 -->
-  </ul>
+<div class="sidebar-header">
+<h3 class="sidebar-title">태그 목록</h3>
+</div>
+<ul class="tag-list" id="tag-list-container">
+<!-- 자바스크립트로 동적 생성됨 -->
+</ul>
 </aside>
 
 
