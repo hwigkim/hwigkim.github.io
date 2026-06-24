@@ -22,11 +22,9 @@ subtitle: "Tibetology & Sinology"
 <style>
   /* 1. 레이아웃 변수 설정 */
   :root {
-    --sidebar-width: 280px;
+    --sidebar-width: 260px;
     --transition-speed: 0.4s;
     --transition-curve: cubic-bezier(0.16, 1, 0.3, 1);
-    --active-color-light: rgba(17, 17, 17, 0.08);
-    --active-color-dark: rgba(255, 255, 255, 0.1);
   }
 
   /* 2. 바디 패딩 트랜지션 (PC용 화면 밀기 효과) */
@@ -34,25 +32,23 @@ subtitle: "Tibetology & Sinology"
     transition: padding-left var(--transition-speed) var(--transition-curve);
   }
 
-  /* 3. 사이드바 스타일 (기본적으로 모바일 드로어 형태) */
+  /* 3. 사이드바 스타일 (Tufte 스타일: 여백 기반, 장식 배제) */
   #sidebar {
     position: fixed;
     top: 0;
     left: 0;
     width: var(--sidebar-width);
     height: 100vh;
-    background: rgba(255, 255, 248, 0.95);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: #fffff8; /* Tufte CSS 기본 용지 색상 */
     border-right: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
     transform: translateX(-100%);
-    transition: transform var(--transition-speed) var(--transition-curve), background-color 0.3s ease;
+    transition: transform var(--transition-speed) var(--transition-curve);
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    padding: 2.5rem 1.8rem;
+    padding: 6.5rem 2rem 2rem 2rem;
     box-sizing: border-box;
+    font-family: et-book, Palatino, "Palatino Linotype", Georgia, serif;
   }
 
   /* 사이드바 열림 상태 */
@@ -60,106 +56,117 @@ subtitle: "Tibetology & Sinology"
     transform: translateX(0);
   }
 
-  /* 다크모드 사이드바 */
+  /* 다크모드 대응 */
   @media (prefers-color-scheme: dark) {
     #sidebar {
-      background: rgba(21, 21, 21, 0.95);
+      background: #151515; /* Tufte CSS 다크모드 용지 색상 */
       border-right: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
     }
   }
 
-  /* 4. 사이드바 헤더 및 제목 */
+  /* 4. 사이드바 헤더 및 제목 (Tufte 이탤릭 제목 스타일) */
   .sidebar-header {
     margin-bottom: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 0.5rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sidebar-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
   }
 
   .sidebar-title {
-    font-size: 1.6rem;
-    font-weight: 600;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 1.5rem;
+    font-weight: normal;
+    font-style: italic;
+    font-family: et-book, Palatino, Georgia, serif;
     margin: 0;
-    letter-spacing: -0.02em;
   }
 
-  /* 5. 태그 리스트 & 아이템 */
+  /* 5. 태그 리스트 & 아이템 (타이포그래피 집중, 백그라운드 상자 배제) */
   .tag-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.8rem;
     overflow-y: auto;
     flex-grow: 1;
   }
 
   .tag-item {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
-    padding: 0.7rem 0.9rem;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-family: system-ui, -apple-system, sans-serif;
-    color: #444;
+    padding: 0.2rem 0;
     background: transparent;
     border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-family: et-book, Palatino, Georgia, serif;
+    color: #444;
     text-align: left;
     width: 100%;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
   }
 
+  /* 호버 시 Tufte 특유의 하단 언더라인 링크 효과 적용 */
   .tag-item:hover {
-    background: rgba(0, 0, 0, 0.04);
     color: #111;
-    transform: translateX(5px);
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
+    background-size: 100% 1px;
+    background-repeat: repeat-x;
+    background-position: 0 95%;
   }
 
+  /* 활성화(Active) 상태: 볼드 및 언더라인 유지 */
   .tag-item.active {
-    background: var(--active-color-light);
+    font-weight: bold;
     color: #111;
-    font-weight: 600;
   }
 
+  .tag-item.active .tag-name {
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.8) 50%);
+    background-size: 100% 2px;
+    background-repeat: repeat-x;
+    background-position: 0 95%;
+  }
+
+  /* 태그 빈도수 (이탤릭 숫자 스타일) */
   .tag-count {
-    font-size: 0.9rem;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 0.15rem 0.5rem;
-    border-radius: 20px;
-    color: #666;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-family: et-book, Palatino, Georgia, serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #888;
+    margin-left: 0.5rem;
   }
 
   .tag-item.active .tag-count {
-    background: rgba(0, 0, 0, 0.12);
     color: #111;
   }
 
-  /* 다크모드 태그 */
+  /* 다크모드 태그 스타일 */
   @media (prefers-color-scheme: dark) {
     .tag-item {
       color: #aaa;
     }
     .tag-item:hover {
-      background: rgba(255, 255, 255, 0.04);
       color: #fff;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
     }
     .tag-item.active {
-      background: var(--active-color-dark);
       color: #fff;
     }
+    .tag-item.active .tag-name {
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.8) 50%);
+    }
     .tag-count {
-      background: rgba(255, 255, 255, 0.08);
-      color: #aaa;
+      color: #666;
     }
     .tag-item.active .tag-count {
-      background: rgba(255, 255, 255, 0.2);
       color: #fff;
     }
   }
@@ -171,12 +178,11 @@ subtitle: "Tibetology & Sinology"
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.15);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     z-index: 999;
-    backdrop-filter: blur(2px);
   }
 
   body.sidebar-open #sidebar-overlay {
@@ -184,82 +190,52 @@ subtitle: "Tibetology & Sinology"
     visibility: visible;
   }
 
-  /* 7. 메뉴 토글 버튼 (햄버거 형태) */
+  /* 7. Tufte 스타일 메뉴 토글 버튼 (수학/학술 책의 캡션/기호 심볼화) */
   #sidebar-toggle-btn {
     position: fixed;
     left: 20px;
     top: 20px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(255, 255, 248, 0.9);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 0, 0, 0.10);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #fffff8;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    color: #111;
+    font-family: et-book, Palatino, Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 0.4rem;
     z-index: 1001;
-    transition: all 0.3s var(--transition-curve);
+    padding: 0.4rem 0.8rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
   }
 
   #sidebar-toggle-btn:hover {
-    transform: scale(1.06);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    background: #ffffff;
+    border-color: #111;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
-  #sidebar-toggle-btn:active {
-    transform: scale(0.94);
-  }
-
-  #sidebar-toggle-btn .hamburger {
-    width: 18px;
-    height: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-  }
-
-  #sidebar-toggle-btn .bar {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #111;
-    border-radius: 1px;
-    transition: transform 0.3s var(--transition-curve), opacity 0.3s ease;
-  }
-
-  /* 햄버거 -> X 애니메이션 */
-  #sidebar-toggle-btn.open .bar:nth-child(1) {
-    transform: translateY(5px) rotate(45deg);
-  }
-  #sidebar-toggle-btn.open .bar:nth-child(2) {
-    opacity: 0;
-  }
-  #sidebar-toggle-btn.open .bar:nth-child(3) {
-    transform: translateY(-5px) rotate(-45deg);
+  .toggle-icon {
+    font-style: normal;
+    font-weight: bold;
   }
 
   /* 다크모드 토글 버튼 */
   @media (prefers-color-scheme: dark) {
     #sidebar-toggle-btn {
-      background: rgba(21, 21, 21, 0.9);
+      background: #151515;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      color: #ddd;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
     #sidebar-toggle-btn:hover {
-      background: #1e1e1e;
-    }
-    #sidebar-toggle-btn .bar {
-      background-color: #ddd;
+      border-color: #fff;
     }
   }
 
-  /* 8. 포스트 리스트 애니메이션 & 스타일 */
+  /* 8. 포스트 리스트 스타일 */
   #dynamic-posts-container {
     display: none;
     margin-top: 2rem;
@@ -267,8 +243,8 @@ subtitle: "Tibetology & Sinology"
 
   .post-item {
     opacity: 0;
-    transform: translateY(15px);
-    animation: slideUpIn 0.5s var(--transition-curve) forwards;
+    transform: translateY(10px);
+    animation: slideUpIn 0.4s var(--transition-curve) forwards;
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
@@ -283,18 +259,19 @@ subtitle: "Tibetology & Sinology"
 
   .post-link {
     font-size: 1.6rem;
-    color: #111;
+    font-weight: normal;
+    color: inherit;
     text-decoration: none;
-    font-weight: 500;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    background-size: 0 1px;
-    transition: background-size 0.3s ease;
+    /* Tufte CSS 고유의 기본 링크 언더라인 스타일 유지 */
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
+    background-size: 100% 1px;
+    background-repeat: repeat-x;
+    background-position: 0 95%;
+    transition: background-size 0.2s ease;
   }
 
   .post-link:hover {
-    background-size: 100% 1px;
+    background-size: 100% 2px;
   }
 
   .post-meta {
@@ -303,30 +280,32 @@ subtitle: "Tibetology & Sinology"
     margin-top: 0.6rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.8rem;
     align-items: center;
   }
 
   .post-tags-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    align-items: center;
   }
 
+  /* Tufte 스타일 해시태그 뱃지 (상자 배제, 이탤릭 텍스트 링크 형태) */
   .post-tag-badge {
-    font-size: 0.9rem;
-    color: #0066cc;
-    background: rgba(0, 102, 204, 0.05);
-    padding: 0.1rem 0.5rem;
-    border-radius: 4px;
+    font-family: et-book, Palatino, Georgia, serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #666;
     cursor: pointer;
-    font-family: system-ui, -apple-system, sans-serif;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
   }
 
   .post-tag-badge:hover {
-    background: rgba(0, 102, 204, 0.12);
-    color: #0044b3;
+    color: #111;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
+    background-size: 100% 1px;
+    background-repeat: repeat-x;
+    background-position: 0 95%;
   }
 
   /* 다크모드 포스트 리스트 */
@@ -335,18 +314,17 @@ subtitle: "Tibetology & Sinology"
       border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
     }
     .post-link {
-      color: #ddd;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
     }
     .post-meta {
       color: #888;
     }
     .post-tag-badge {
-      color: #66b2ff;
-      background: rgba(102, 178, 255, 0.1);
+      color: #888;
     }
     .post-tag-badge:hover {
-      background: rgba(102, 178, 255, 0.2);
-      color: #99ccff;
+      color: #fff;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
     }
   }
 
@@ -359,16 +337,19 @@ subtitle: "Tibetology & Sinology"
     #sidebar-overlay {
       display: none !important;
     }
+
+    /* PC에서는 테두리 및 배경을 완전 투명화하여 책의 '좌측 여백 노트(Sidenote)'처럼 자연스럽게 융합 */
+    #sidebar {
+      background: transparent;
+      border-right: none;
+    }
   }
 </style>
 
 <!-- 레이아웃 요소 삽입 -->
 <button id="sidebar-toggle-btn" aria-label="태그 목록 토글">
-  <div class="hamburger">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </div>
+  <span class="toggle-icon">⊕</span>
+  <span class="toggle-text">태그 목록</span>
 </button>
 
 <div id="sidebar-overlay"></div>
@@ -456,9 +437,10 @@ subtitle: "Tibetology & Sinology"
 
     // '전체 보기' 버튼 생성
     const allItem = document.createElement('li');
+    const isAllActive = !activeTag;
     allItem.innerHTML = `
-      <button class="tag-item ${!activeTag ? 'active' : ''}" id="all-tags-item">
-        <span>전체 보기</span>
+      <button class="tag-item ${isAllActive ? 'active' : ''}" id="all-tags-item">
+        <span class="tag-name">${isAllActive ? '→ 전체 보기' : '전체 보기'}</span>
         <span class="tag-count">${posts.length}</span>
       </button>
     `;
@@ -478,7 +460,7 @@ subtitle: "Tibetology & Sinology"
       
       tagItem.innerHTML = `
         <button class="tag-item ${isActive ? 'active' : ''}">
-          <span>#${tag}</span>
+          <span class="tag-name">${isActive ? '→ ' + tag : tag}</span>
           <span class="tag-count">${count}</span>
         </button>
       `;
@@ -511,12 +493,13 @@ subtitle: "Tibetology & Sinology"
       // 순차적 페이드인 애니메이션 딜레이 설정
       postCard.style.animationDelay = `${index * 0.05}s`;
 
-      // 게시글 내 태그 뱃지 생성
+      // 게시글 내 태그 뱃지 생성 (middot로 구분된 텍스트 형태)
       let tagsHTML = '';
       if (post.tags && post.tags.length > 0) {
         tagsHTML = `
           <div class="post-tags-list">
-            ${post.tags.map(t => `<span class="post-tag-badge">#${t}</span>`).join('')}
+             &nbsp;&middot;&nbsp; 
+            ${post.tags.map(t => `<span class="post-tag-badge">#${t}</span>`).join(' &middot; ')}
           </div>
         `;
       }
@@ -548,21 +531,27 @@ subtitle: "Tibetology & Sinology"
     activeTag = tag;
     renderSidebar();
     renderPosts();
-    
-    // 브라우저 세션 스토리지 등에 선택 태그 임시 저장 가능 (원할 경우 스크롤 위치 유지 등)
   }
 
-  // 8. 사이드바 토글 동작 제어
+  // 8. 사이드바 동작 제어
   function toggleSidebar() {
     const isOpen = document.body.classList.toggle('sidebar-open');
     toggleBtn.classList.toggle('open', isOpen);
+    const icon = toggleBtn.querySelector('.toggle-icon');
+    if (icon) {
+      icon.textContent = isOpen ? '⊖' : '⊕';
+    }
   }
 
+  // 모바일 환경(1024px 미만)에서만 태그 클릭 시 사이드바를 자동으로 닫음
   function closeSidebarOnMobile() {
-    // 모바일 환경(1024px 미만)에서만 태그 클릭 시 사이드바를 자동으로 닫음
     if (window.innerWidth < 1024) {
       document.body.classList.remove('sidebar-open');
       toggleBtn.classList.remove('open');
+      const icon = toggleBtn.querySelector('.toggle-icon');
+      if (icon) {
+        icon.textContent = '⊕';
+      }
     }
   }
 
@@ -579,6 +568,10 @@ subtitle: "Tibetology & Sinology"
   if (window.innerWidth >= 1024) {
     document.body.classList.add('sidebar-open');
     toggleBtn.classList.add('open');
+    const icon = toggleBtn.querySelector('.toggle-icon');
+    if (icon) {
+      icon.textContent = '⊖';
+    }
   }
 
   renderSidebar();
