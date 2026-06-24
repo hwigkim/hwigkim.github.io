@@ -203,10 +203,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    .toggle-icon {
-      font-style: normal;
-      font-weight: bold;
-    }
+
 
     /* 홈 버튼 (Tufte 스타일) */
     #home-btn {
@@ -333,13 +330,11 @@
 <body>
   <!-- 레이아웃 요소 삽입 -->
   <button id="sidebar-toggle-btn" aria-label="목록 토글">
-    <span class="toggle-icon">⊕</span>
     <span class="toggle-text">목록</span>
   </button>
 
   {% if page.url != "/" and page.url != "/index.html" %}
   <a id="home-btn" href="{{ '/' | relative_url }}" aria-label="홈으로 이동">
-    <span class="home-icon">←</span>
     <span class="home-text">홈</span>
   </a>
   {% endif %}
@@ -521,10 +516,6 @@
     function toggleSidebar() {
       const isOpen = document.body.classList.toggle('sidebar-open');
       toggleBtn.classList.toggle('open', isOpen);
-      const icon = toggleBtn.querySelector('.toggle-icon');
-      if (icon) {
-        icon.textContent = isOpen ? '⊖' : '⊕';
-      }
       localStorage.setItem('sidebar-state', isOpen ? 'open' : 'closed');
     }
 
@@ -532,10 +523,6 @@
       if (window.innerWidth < 1024) {
         document.body.classList.remove('sidebar-open');
         toggleBtn.classList.remove('open');
-        const icon = toggleBtn.querySelector('.toggle-icon');
-        if (icon) {
-          icon.textContent = '⊕';
-        }
       }
     }
 
@@ -560,17 +547,9 @@
     if (shouldSidebarOpen) {
       document.body.classList.add('sidebar-open');
       if (toggleBtn) toggleBtn.classList.add('open');
-      const icon = toggleBtn ? toggleBtn.querySelector('.toggle-icon') : null;
-      if (icon) {
-        icon.textContent = '⊖';
-      }
     } else {
       document.body.classList.remove('sidebar-open');
       if (toggleBtn) toggleBtn.classList.remove('open');
-      const icon = toggleBtn ? toggleBtn.querySelector('.toggle-icon') : null;
-      if (icon) {
-        icon.textContent = '⊕';
-      }
     }
 
     renderSidebar();
