@@ -383,6 +383,7 @@ label.margin-toggle:not(.sidenote-number) {
     padding-left: 2em;
     text-indent: -2em;
     width: 55%;
+    margin-bottom: 1.5rem;
 }
 
 @media (max-width: 760px) {
