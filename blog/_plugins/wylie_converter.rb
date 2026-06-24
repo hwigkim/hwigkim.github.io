@@ -1,3 +1,7 @@
+# UTF-8 인코딩을 기본으로 설정하여 서브프로세스와의 입출력 시 인코딩 손상을 방지합니다.
+Encoding.default_external = 'UTF-8'
+Encoding.default_internal = 'UTF-8'
+
 require 'open3'
 
 # 글로벌 로그 수집 배열
