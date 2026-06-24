@@ -23,14 +23,29 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
       $wylie_logs << "Input content: #{content.strip}"
 
       # 파이썬을 서브프로세스로 실행하여 Wylie 표기를 티베트 유니코드로 변환
-      # PYTHONUTF8=1 환경변수를 설정하여 윈도우 인코딩 오류 방지
+      # 코드블럭(fenced 및 inline) 내부의 패턴은 변환 대상에서 제외합니다.
       python_code = <<~'PYTHON'
         import sys, re, pyewts
         converter = pyewts.pyewts()
         text = sys.stdin.read()
         sys.stderr.write(f"Python stdout encoding: {sys.stdout.encoding}, stdin: {sys.stdin.encoding}\n")
-        # tibwc*wylie* 패턴을 찾아 변환 (줄바꿈을 넘지 않도록 제한)
-        result = re.sub(r"tibwc\*([^\*\n]+)\*", lambda m: f"{converter.toUnicode(m.group(1))} *{m.group(1)}*", text)
+        
+        # 1) Fenced code block (```...```)
+        # 2) Inline code (`...`)
+        # 3) tibwc*wylie* (본문 영역만 변환)
+        pattern = re.compile(r"(```[\s\S]*?```)|(`[^`\n]*?`)|tibwc\*([^\*\n]+)\*")
+        
+        def replace(match):
+            if match.group(1):
+                return match.group(1)
+            elif match.group(2):
+                return match.group(2)
+            elif match.group(3):
+                wylie = match.group(3)
+                return f"{converter.toUnicode(wylie)} *{wylie}*"
+            return match.group(0)
+
+        result = pattern.sub(replace, text)
         sys.stdout.write(result)
       PYTHON
 
