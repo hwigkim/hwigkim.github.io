@@ -374,6 +374,12 @@ label.margin-toggle:not(.sidenote-number) {
     height: 100%;
 }
 
+.hanging-indent {
+    padding-left: 2em;
+    text-indent: -2em;
+    width: 55%;
+}
+
 @media (max-width: 760px) {
     body {
         width: 84%;
@@ -384,7 +390,8 @@ label.margin-toggle:not(.sidenote-number) {
     hr,
     section > p,
     section > footer,
-    section > table {
+    section > table,
+    .hanging-indent {
         width: 100%;
     }
 
