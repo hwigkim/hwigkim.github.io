@@ -752,8 +752,38 @@
       });
     }
 
+    // 모바일/데스크톱 화면 크기에 따라 주석(sidenote) 위치 조정 (문단 아래 배치)
+    let wasMobile = null;
+    function adjustSidenotesLayout() {
+      const isMobile = window.innerWidth <= 760;
+      if (isMobile === wasMobile) return;
+      wasMobile = isMobile;
+
+      const wrappers = document.querySelectorAll('.sidenote-wrapper');
+      wrappers.forEach(wrapper => {
+        const input = wrapper.querySelector('input.margin-toggle');
+        const note = wrapper.querySelector('.sidenote, .marginnote');
+        if (!input || !note) return;
+
+        if (isMobile) {
+          // 모바일: 주석을 부모 블록(문단 p 등)의 맨 마지막으로 이동시켜 문장 중간에 끊기지 않도록 함
+          const parentBlock = wrapper.closest('p, li, blockquote, dd, dt, td, h1, h2, h3, h4, h5, h6');
+          if (parentBlock) {
+            parentBlock.appendChild(input);
+            parentBlock.appendChild(note);
+          }
+        } else {
+          // 데스크톱: 원래의 인라인 래퍼 안으로 되돌림 (원래 디자인대로 정렬)
+          wrapper.appendChild(input);
+          wrapper.appendChild(note);
+        }
+      });
+    }
+
     applyHangingIndentToReferences();
     adjustKoreanFontWeight();
+    adjustSidenotesLayout();
+    window.addEventListener('resize', adjustSidenotesLayout);
   })();
   </script>
 </body>
