@@ -611,6 +611,77 @@
 
     renderSidebar();
     renderPosts();
+
+    // 포스트 본문 내의 해시태그를 클릭 가능한 버튼으로 자동 변환
+    function convertHashtagsInPost() {
+      const articleSection = document.querySelector('article section');
+      if (!articleSection) return;
+
+      const walk = document.createTreeWalker(articleSection, NodeFilter.SHOW_TEXT, null, false);
+      const textNodes = [];
+      let node;
+      while (node = walk.nextNode()) {
+        textNodes.push(node);
+      }
+
+      const regex = /(?:^|\s)#([a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣_][a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_]*)/g;
+
+      textNodes.forEach(textNode => {
+        // pre, code, a 태그 내부에 있는 경우 변환하지 않음
+        let parent = textNode.parentNode;
+        let isInsideExcludedTag = false;
+        while (parent && parent !== articleSection) {
+          const tagName = parent.tagName.toLowerCase();
+          if (tagName === 'pre' || tagName === 'code' || tagName === 'a') {
+            isInsideExcludedTag = true;
+            break;
+          }
+          parent = parent.parentNode;
+        }
+        if (isInsideExcludedTag) return;
+
+        const text = textNode.nodeValue;
+        if (!text.includes('#')) return;
+
+        let parts = [];
+        let lastIndex = 0;
+        let match;
+        regex.lastIndex = 0;
+
+        while ((match = regex.exec(text)) !== null) {
+          const tag = match[1];
+          if (match.index > lastIndex) {
+            parts.push(document.createTextNode(text.substring(lastIndex, match.index)));
+          }
+          
+          const badge = document.createElement('span');
+          badge.className = 'post-tag-badge';
+          badge.textContent = '#' + tag;
+          badge.style.cursor = 'pointer';
+          badge.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            selectTag(tag);
+          });
+          parts.push(badge);
+          lastIndex = regex.lastIndex;
+        }
+
+        if (lastIndex < text.length && lastIndex > 0) {
+          parts.push(document.createTextNode(text.substring(lastIndex)));
+        }
+
+        if (parts.length > 0) {
+          const pNode = textNode.parentNode;
+          parts.forEach(part => {
+            pNode.insertBefore(part, textNode);
+          });
+          pNode.removeChild(textNode);
+        }
+      });
+    }
+
+    convertHashtagsInPost();
   })();
   </script>
 </body>
