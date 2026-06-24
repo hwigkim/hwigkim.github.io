@@ -585,6 +585,7 @@
       if (icon) {
         icon.textContent = isOpen ? '⊖' : '⊕';
       }
+      localStorage.setItem('sidebar-state', isOpen ? 'open' : 'closed');
     }
 
     function closeSidebarOnMobile() {
@@ -611,12 +612,24 @@
     if (staticList) staticList.style.display = 'none';
     if (dynamicContainer) dynamicContainer.style.display = 'block';
 
-    if (window.innerWidth >= 1024) {
+    // 브라우저 로컬 저장소를 기반으로 초기 사이드바 개폐 상태 결정
+    const savedSidebarState = localStorage.getItem('sidebar-state');
+    const isDesktop = window.innerWidth >= 1024;
+    const shouldSidebarOpen = savedSidebarState === 'open' || (isDesktop && savedSidebarState !== 'closed');
+
+    if (shouldSidebarOpen) {
       document.body.classList.add('sidebar-open');
       if (toggleBtn) toggleBtn.classList.add('open');
       const icon = toggleBtn ? toggleBtn.querySelector('.toggle-icon') : null;
       if (icon) {
         icon.textContent = '⊖';
+      }
+    } else {
+      document.body.classList.remove('sidebar-open');
+      if (toggleBtn) toggleBtn.classList.remove('open');
+      const icon = toggleBtn ? toggleBtn.querySelector('.toggle-icon') : null;
+      if (icon) {
+        icon.textContent = '⊕';
       }
     }
 
