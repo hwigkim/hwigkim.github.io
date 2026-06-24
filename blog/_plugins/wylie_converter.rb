@@ -50,7 +50,7 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
   end
 end
 
-Jekyll::Hooks.register :site, :after_write do |site|
+Jekyll::Hooks.register :site, :post_write do |site|
   # 빌드가 완전히 완료된 후 _site 폴더에 직접 디버그 로그 파일 쓰기
   debug_file = File.join(site.dest, "wylie_debug.txt")
   File.write(debug_file, $wylie_logs.join("\n"), encoding: "utf-8")
