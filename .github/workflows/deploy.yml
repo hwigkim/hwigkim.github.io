@@ -47,6 +47,11 @@ jobs:
           pip install "setuptools<82.0.0"
           pip install pyewts --no-build-isolation
 
+      - name: Diagnostic Python Check
+        run: |
+          python -c "import pyewts; converter = pyewts.pyewts(); val = converter.toUnicode('bod'); print('val:', repr(val), 'bytes:', val.encode('utf-8'))"
+
+
       - name: Build with Jekyll
         working-directory: blog
         run: bundle exec jekyll build
