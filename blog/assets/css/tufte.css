@@ -296,7 +296,7 @@ div.table-wrapper {
 
 /* 인라인 코드 스타일 (본문 텍스트 내) */
 code {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: "Pretendard Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 0.85em;
     background-color: rgba(27, 31, 35, 0.05);
     padding: 0.2rem 0.4rem;
@@ -335,7 +335,7 @@ pre {
 }
 
 pre > code {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: "Pretendard Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 0.85rem;
     line-height: 1.6;
     color: #e0e0e0; /* 밝은 회색 글자 */
