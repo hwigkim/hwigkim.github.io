@@ -25,10 +25,13 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
       stdin_data: content
     )
 
+    stdout.force_encoding("UTF-8")
+    stderr.force_encoding("UTF-8")
+
     if status.success?
       doc.content = stdout
     else
-      Jekyll.logger.warn "Wylie Converter [Error] on #{doc.path}:", stderr
+      raise "Wylie Converter [Error] on #{doc.path}: #{stderr}"
     end
   end
 end
