@@ -10,8 +10,400 @@
   {% else %}
   <meta name="description" content="{{ site.description }}">
   {% endif %}
+
+  <!-- 포스트 데이터를 JSON 형식으로 직렬화 (Jekyll 빌드 시 생성됨) -->
+  <script id="posts-data" type="application/json">
+  [
+    {% for post in site.posts %}
+    {
+      "title": {{ post.title | jsonify }},
+      "url": {{ post.url | relative_url | jsonify }},
+      "date": {{ post.date | date: "%Y년 %m월 %d일" | jsonify }},
+      "content": {{ post.content | strip_html | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+  </script>
+
+  <!-- 사이드바 및 레이아웃 커스텀 스타일 정의 -->
+  <style>
+    /* 1. 레이아웃 변수 설정 */
+    :root {
+      --sidebar-width: 260px;
+      --transition-speed: 0.4s;
+      --transition-curve: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* 2. 바디 패딩 트랜지션 (PC용 화면 밀기 효과) */
+    body {
+      transition: padding-left var(--transition-speed) var(--transition-curve);
+    }
+
+    /* 3. 사이드바 스타일 (Tufte 스타일: 여백 기반, 장식 배제) */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: #fffff8; /* Tufte CSS 기본 용지 색상 */
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      transform: translateX(-100%);
+      transition: transform var(--transition-speed) var(--transition-curve);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      padding: 6.5rem 2rem 2rem 2rem;
+      box-sizing: border-box;
+      font-family: et-book, Palatino, "Palatino Linotype", Georgia, serif;
+    }
+
+    /* 사이드바 열림 상태 */
+    body.sidebar-open #sidebar {
+      transform: translateX(0);
+    }
+
+    /* 다크모드 대응 */
+    @media (prefers-color-scheme: dark) {
+      #sidebar {
+        background: #151515; /* Tufte CSS 다크모드 용지 색상 */
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    /* 4. 사이드바 헤더 및 제목 (Tufte 스타일 제목) */
+    .sidebar-header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding-bottom: 0.5rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .sidebar-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    .sidebar-title {
+      font-size: 1.5rem;
+      font-weight: normal;
+      font-style: normal; /* 이탤릭체 해제 */
+      font-family: et-book, Palatino, Georgia, serif;
+      margin: 0;
+    }
+
+    /* 5. 태그 리스트 & 아이템 (타이포그래피 집중, 백그라운드 상자 배제) */
+    .tag-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.2rem 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-family: et-book, Palatino, Georgia, serif;
+      color: #444;
+      text-align: left;
+      width: 100%;
+      transition: color 0.2s ease;
+    }
+
+    /* 호버 시 Tufte 특유의 하단 언더라인 링크 효과 적용 */
+    .tag-item:hover {
+      color: #111;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
+      background-size: 100% 1px;
+      background-repeat: repeat-x;
+      background-position: 0 95%;
+    }
+
+    /* 활성화(Active) 상태: 볼드 및 언더라인 유지 */
+    .tag-item.active {
+      font-weight: bold;
+      color: #111;
+    }
+
+    .tag-item.active .tag-name {
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.8) 50%);
+      background-size: 100% 2px;
+      background-repeat: repeat-x;
+      background-position: 0 95%;
+    }
+
+    /* 태그 빈도수 (이탤릭 숫자 스타일) */
+    .tag-count {
+      font-family: et-book, Palatino, Georgia, serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #888;
+      margin-left: 0.5rem;
+    }
+
+    .tag-item.active .tag-count {
+      color: #111;
+    }
+
+    /* 다크모드 태그 스타일 */
+    @media (prefers-color-scheme: dark) {
+      .tag-item {
+        color: #aaa;
+      }
+      .tag-item:hover {
+        color: #fff;
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
+      }
+      .tag-item.active {
+        color: #fff;
+      }
+      .tag-item.active .tag-name {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.8) 50%);
+      }
+      .tag-count {
+        color: #666;
+      }
+      .tag-item.active .tag-count {
+        color: #fff;
+      }
+    }
+
+    /* 6. 모바일 오버레이 */
+    #sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 999;
+    }
+
+    body.sidebar-open #sidebar-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* 7. Tufte 스타일 메뉴 토글 버튼 */
+    #sidebar-toggle-btn {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      background: #fffff8;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      color: #111;
+      font-family: et-book, Palatino, Georgia, serif;
+      font-style: normal; /* 이탤릭체 해제 */
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 1001;
+      padding: 0.4rem 0.8rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    #sidebar-toggle-btn:hover {
+      border-color: #111;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .toggle-icon {
+      font-style: normal;
+      font-weight: bold;
+    }
+
+    /* 홈 버튼 (Tufte 스타일) */
+    #home-btn {
+      position: fixed;
+      left: 95px; /* 목록 버튼 오른쪽에 배치 */
+      top: 20px;
+      background: #fffff8;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      color: #111;
+      font-family: et-book, Palatino, Georgia, serif;
+      font-style: normal;
+      font-size: 1.15rem;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 1001;
+      padding: 0.4rem 0.8rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    #home-btn:hover {
+      border-color: #111;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background-image: none; /* Tufte 링크 언더라인 스타일 배제 */
+    }
+
+    /* 다크모드 대응 */
+    @media (prefers-color-scheme: dark) {
+      #sidebar-toggle-btn, #home-btn {
+        background: #151515;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #ddd;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      #sidebar-toggle-btn:hover, #home-btn:hover {
+        border-color: #fff;
+      }
+    }
+
+    /* 8. 포스트 리스트 스타일 */
+    #dynamic-posts-container {
+      display: none;
+      margin-top: 2rem;
+    }
+
+    .post-item {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: slideUpIn 0.4s var(--transition-curve) forwards;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+    }
+
+    @keyframes slideUpIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .post-link {
+      font-size: 1.6rem;
+      font-weight: normal;
+      color: inherit;
+      text-decoration: none;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
+      background-size: 100% 1px;
+      background-repeat: repeat-x;
+      background-position: 0 95%;
+      transition: background-size 0.2s ease;
+    }
+
+    .post-link:hover {
+      background-size: 100% 2px;
+    }
+
+    .post-meta {
+      font-size: 1.1rem;
+      color: #666;
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .post-tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .post-tag-badge {
+      font-family: et-book, Palatino, Georgia, serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: #666;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .post-tag-badge:hover {
+      color: #111;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
+      background-size: 100% 1px;
+      background-repeat: repeat-x;
+      background-position: 0 95%;
+    }
+
+    /* 다크모드 포스트 리스트 */
+    @media (prefers-color-scheme: dark) {
+      .post-item {
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+      }
+      .post-link {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
+      }
+      .post-meta {
+        color: #888;
+      }
+      .post-tag-badge {
+        color: #888;
+      }
+      .post-tag-badge:hover {
+        color: #fff;
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
+      }
+    }
+
+    /* 9. PC 레이아웃 미디어 쿼리 (화면 가로 1024px 이상) */
+    @media (min-width: 1024px) {
+      body.sidebar-open {
+        padding-left: calc(12.5% + var(--sidebar-width));
+      }
+      
+      #sidebar-overlay {
+        display: none !important;
+      }
+
+      #sidebar {
+        background: transparent;
+        border-right: none;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- 레이아웃 요소 삽입 -->
+  <button id="sidebar-toggle-btn" aria-label="목록 토글">
+    <span class="toggle-icon">⊕</span>
+    <span class="toggle-text">목록</span>
+  </button>
+
+  {% if page.url != "/" and page.url != "/index.html" %}
+  <a id="home-btn" href="{{ '/' | relative_url }}" aria-label="홈으로 이동">
+    <span class="home-icon">←</span>
+    <span class="home-text">홈</span>
+  </a>
+  {% endif %}
+
+  <div id="sidebar-overlay"></div>
+
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <h3 class="sidebar-title">목록</h3>
+    </div>
+    <ul class="tag-list" id="tag-list-container">
+      <!-- 자바스크립트로 동적 생성됨 -->
+    </ul>
+  </aside>
+
   <article>
     <h1>{{ page.title | default: site.title }}</h1>
     {% if page.subtitle %}
@@ -31,5 +423,195 @@
       {{ content }}
     </section>
   </article>
+
+  <!-- 데이터 처리 및 컴포넌트 동작 제어 스크립트 -->
+  <script>
+  (function() {
+    const homeUrl = "{{ '/' | relative_url }}";
+    const staticList = document.getElementById('static-posts-list');
+    const dynamicContainer = document.getElementById('dynamic-posts-container');
+    const tagListContainer = document.getElementById('tag-list-container');
+    const toggleBtn = document.getElementById('sidebar-toggle-btn');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    let posts = [];
+    try {
+      posts = JSON.parse(document.getElementById('posts-data').textContent);
+    } catch (e) {
+      console.error("포스트 데이터를 파싱하지 못했습니다:", e);
+      return;
+    }
+
+    let activeTag = null;
+
+    const tagRegex = /(?:^|\s)#([a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣_][a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_]*)/g;
+    const tagCounts = {};
+    
+    posts.forEach(post => {
+      const content = post.content || "";
+      const tags = [];
+      let match;
+      
+      tagRegex.lastIndex = 0;
+      while ((match = tagRegex.exec(content)) !== null) {
+        const tag = match[1];
+        if (!tags.includes(tag)) {
+          tags.push(tag);
+        }
+      }
+      
+      post.tags = tags;
+      
+      tags.forEach(tag => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    });
+
+    function renderSidebar() {
+      if (!tagListContainer) return;
+      tagListContainer.innerHTML = '';
+
+      const allItem = document.createElement('li');
+      const isAllActive = !activeTag;
+      allItem.innerHTML = `
+        <button class="tag-item ${isAllActive ? 'active' : ''}" id="all-tags-item">
+          <span class="tag-name">${isAllActive ? '→ 전체 보기' : '전체 보기'}</span>
+          <span class="tag-count">${posts.length}</span>
+        </button>
+      `;
+      allItem.querySelector('button').addEventListener('click', () => {
+        selectTag(null);
+        closeSidebarOnMobile();
+      });
+      tagListContainer.appendChild(allItem);
+
+      const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
+      
+      sortedTags.forEach(tag => {
+        const count = tagCounts[tag];
+        const tagItem = document.createElement('li');
+        const isActive = activeTag === tag;
+        
+        tagItem.innerHTML = `
+          <button class="tag-item ${isActive ? 'active' : ''}">
+            <span class="tag-name">${isActive ? '→ ' + tag : tag}</span>
+            <span class="tag-count">${count}</span>
+          </button>
+        `;
+        
+        tagItem.querySelector('button').addEventListener('click', () => {
+          selectTag(tag);
+          closeSidebarOnMobile();
+        });
+        tagListContainer.appendChild(tagItem);
+      });
+    }
+
+    function renderPosts() {
+      if (!dynamicContainer) return;
+      dynamicContainer.innerHTML = '';
+      
+      const filteredPosts = activeTag 
+        ? posts.filter(post => post.tags && post.tags.includes(activeTag))
+        : posts;
+
+      if (filteredPosts.length === 0) {
+        dynamicContainer.innerHTML = '<p>해당 태그의 글이 없습니다.</p>';
+        return;
+      }
+
+      filteredPosts.forEach((post, index) => {
+        const postCard = document.createElement('div');
+        postCard.className = 'post-item';
+        postCard.style.animationDelay = `${index * 0.05}s`;
+
+        let tagsHTML = '';
+        if (post.tags && post.tags.length > 0) {
+          tagsHTML = `
+            <div class="post-tags-list">
+               &nbsp;&middot;&nbsp; 
+              ${post.tags.map(t => `<span class="post-tag-badge">#${t}</span>`).join(' &middot; ')}
+            </div>
+          `;
+        }
+
+        postCard.innerHTML = `
+          <a class="post-link" href="${post.url}">${post.title}</a>
+          <div class="post-meta">
+            <span>${post.date}</span>
+            ${tagsHTML}
+          </div>
+        `;
+
+        postCard.querySelectorAll('.post-tag-badge').forEach((badge, idx) => {
+          badge.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const clickedTag = post.tags[idx];
+            selectTag(clickedTag);
+          });
+        });
+
+        dynamicContainer.appendChild(postCard);
+      });
+    }
+
+    function selectTag(tag) {
+      if (!dynamicContainer) {
+        // 상세페이지에서는 홈화면으로 이동 후 태그 파라미터 전달
+        window.location.href = homeUrl + (tag ? '?tag=' + encodeURIComponent(tag) : '');
+        return;
+      }
+      activeTag = tag;
+      renderSidebar();
+      renderPosts();
+    }
+
+    function toggleSidebar() {
+      const isOpen = document.body.classList.toggle('sidebar-open');
+      toggleBtn.classList.toggle('open', isOpen);
+      const icon = toggleBtn.querySelector('.toggle-icon');
+      if (icon) {
+        icon.textContent = isOpen ? '⊖' : '⊕';
+      }
+    }
+
+    function closeSidebarOnMobile() {
+      if (window.innerWidth < 1024) {
+        document.body.classList.remove('sidebar-open');
+        toggleBtn.classList.remove('open');
+        const icon = toggleBtn.querySelector('.toggle-icon');
+        if (icon) {
+          icon.textContent = '⊕';
+        }
+      }
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+    if (overlay) overlay.addEventListener('click', toggleSidebar);
+
+    // 초기화 시 URL 쿼리 파라미터 읽기
+    const params = new URLSearchParams(window.location.search);
+    const tagParam = params.get('tag');
+    if (tagParam && tagCounts[tagParam]) {
+      activeTag = tagParam;
+    }
+
+    if (staticList) staticList.style.display = 'none';
+    if (dynamicContainer) dynamicContainer.style.display = 'block';
+
+    if (window.innerWidth >= 1024) {
+      document.body.classList.add('sidebar-open');
+      if (toggleBtn) toggleBtn.classList.add('open');
+      const icon = toggleBtn ? toggleBtn.querySelector('.toggle-icon') : null;
+      if (icon) {
+        icon.textContent = '⊖';
+      }
+    }
+
+    renderSidebar();
+    renderPosts();
+  })();
+  </script>
 </body>
 </html>
