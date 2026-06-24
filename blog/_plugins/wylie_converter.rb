@@ -42,7 +42,23 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
                 return match.group(2)
             elif match.group(3):
                 wylie = match.group(3)
-                return f"{converter.toUnicode(wylie)} *{wylie}*"
+                unicode_val = converter.toUnicode(wylie)
+                
+                # 로마자(알파벳)로 끝나는지 검사
+                if re.search(r"[a-zA-Z]$", wylie):
+                    # ng으로 끝나는 경우: tsheg(་) + shad(།) 덧붙임
+                    if wylie.endswith("ng"):
+                        if not unicode_val.endswith('\u0f0b\u0f0d'):
+                            if unicode_val.endswith('\u0f0b'):
+                                unicode_val += '\u0f0d'
+                            else:
+                                unicode_val += '\u0f0b\u0f0d'
+                    # 그 외 일반 로마자로 끝나는 경우: tsheg(་) 덧붙임
+                    else:
+                        if not unicode_val.endswith('\u0f0b'):
+                            unicode_val += '\u0f0b'
+                            
+                return f"{unicode_val} *{wylie}*"
             return match.group(0)
 
         result = pattern.sub(replace, text)
