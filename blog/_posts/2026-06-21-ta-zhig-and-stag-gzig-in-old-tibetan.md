@@ -22,6 +22,7 @@ In *Old Tibetan Inscriptions* (2009) edited by Hill and Iwao, there is no *stag 
 Although it cannot prove the absence of *stag gzig* in OT, but the *ta zhig* seems to be used more often in OTI.[^a]
 
 I found *sTag gzig* in the comment of the *Old Tibetan Annals* (2009: p.168) translated by Dotson.
+
 > In the same catalogue (KK 320.18–321.7) there is also mention of a khas-dpon of the land of the “Dru-gu (Western Turks) in the North” (namely chos blon Lam-sde Khri-bzang lo-btsan), a khas-dpon of “China in the East” (Mchims Mang-rje mang-lod) and a khas-blon of “Stag-gzig in the West” (minister Snubs Gna'-stong-re gtsug-snon...) 
 
 The abbreviation KK is *bka' chems ka khol ma*, the 'Pillar Testament' attributed to Songtsen Gampo, which is considered to date from imperial Tibet. But it's more likely to be written in 11th century or later (but can be based on much older texts). [^c]

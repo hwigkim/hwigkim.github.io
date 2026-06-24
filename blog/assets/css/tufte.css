@@ -164,6 +164,11 @@ blockquote {
     font-size: 1.3rem;
     font-style: italic;
     color: #444;
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -173,7 +178,7 @@ blockquote {
 }
 
 blockquote p {
-    width: 50%;
+    width: 55%;
     margin-left: 2.5rem;
 }
 
@@ -423,6 +428,7 @@ label.margin-toggle:not(.sidenote-number) {
     blockquote p,
     blockquote footer {
         width: 100%;
+        margin-left: 0;
     }
 
     label.margin-toggle:not(.sidenote-number) {
