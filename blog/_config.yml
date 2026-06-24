@@ -27,4 +27,4 @@ exclude:
 
 # Cusdis Comments Configuration
 # Cusdis dashboard(https://cusdis.com)에서 발급받은 App ID를 여기에 입력하세요.
-cusdis_app_id: "YOUR_CUSDIS_APP_ID"
+cusdis_app_id: "017b3843-5f7a-44df-ab44-d8db2a1e2dad"
