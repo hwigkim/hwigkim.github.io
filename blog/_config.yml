@@ -24,3 +24,7 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - .github/
+
+# Cusdis Comments Configuration
+# Cusdis dashboard(https://cusdis.com)에서 발급받은 App ID를 여기에 입력하세요.
+cusdis_app_id: "YOUR_CUSDIS_APP_ID"

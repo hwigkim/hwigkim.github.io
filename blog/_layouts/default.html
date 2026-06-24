@@ -370,6 +370,21 @@
     <section>
       {{ content }}
     </section>
+
+    {% if page.date %}
+    <!-- Cusdis 댓글 시스템 -->
+    <section style="margin-top: 5rem; width: 90%; margin-left: 2.5%; border-top: 1px solid rgba(0, 0, 0, 0.08); padding-top: 2rem;">
+      <h3 style="font-family: et-book, Palatino, Georgia, serif; font-weight: normal; margin-bottom: 2rem;">댓글</h3>
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="{{ site.cusdis_app_id }}"
+        data-page-id="{{ page.url }}"
+        data-page-url="{{ page.url | absolute_url }}"
+        data-page-title="{{ page.title }}">
+      </div>
+      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+    </section>
+    {% endif %}
   </article>
 
   <!-- 데이터 처리 및 컴포넌트 동작 제어 스크립트 -->
