@@ -59,6 +59,7 @@ graph TD
     H --> I["post_write 훅 실행"]
     I --> J["_site/wylie_debug.txt 로그 기록 생성"]
 ```
+![[wylie_convert_tree.png]]
 
 ### 2.2 핵심 구성 요소
 
