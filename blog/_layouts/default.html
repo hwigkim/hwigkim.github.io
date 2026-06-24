@@ -804,11 +804,29 @@
       }
     }
 
+    function initKoreanEmphasis() {
+      try {
+        const emElements = document.querySelectorAll('em, i');
+        const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        emElements.forEach(function(el) {
+          if (koreanRegex.test(el.textContent)) {
+            el.classList.add('ko-emphasis');
+          }
+        });
+      } catch (err) {
+        console.error("Error setting Korean emphasis font styles:", err);
+      }
+    }
+
     // type="module"의 비동기 로드 타이밍을 고려하여 DOM 완료 상태를 체크합니다.
     if (document.readyState === "complete" || document.readyState === "interactive") {
       initMermaid();
+      initKoreanEmphasis();
     } else {
-      document.addEventListener("DOMContentLoaded", initMermaid);
+      document.addEventListener("DOMContentLoaded", function() {
+        initMermaid();
+        initKoreanEmphasis();
+      });
     }
   </script>
 </body>

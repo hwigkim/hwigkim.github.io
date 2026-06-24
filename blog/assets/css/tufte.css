@@ -490,10 +490,16 @@ label.margin-toggle:not(.sidenote-number) {
     }
 }
 
-/* 한글 이탤릭체(기울임) 적용 방지 및 마크다운 이탤릭(em, i) 밑줄 설정 */
+/* 기본 마크다운 이탤릭 (em, i) 규칙: 로마자(영문자) 등은 원래처럼 기울여 표시 */
 em, i {
-    font-style: normal !important; /* 어떤 상황에서도 기울임체를 적용하지 않음 (한글 가독성 보호) */
-    text-decoration: underline !important; /* 이탤릭 효과를 밑줄로 대체 */
+    font-style: italic !important;
+    text-decoration: none !important;
+}
+
+/* 한글이 포함된 강조 문맥(ko-emphasis 클래스)에만 이탤릭을 해제하고 밑줄을 표시 */
+em.ko-emphasis, i.ko-emphasis {
+    font-style: normal !important; /* 한글은 어떤 경우에도 이탤릭체를 적용하지 않음 */
+    text-decoration: underline !important; /* 밑줄 효과 적용 */
     text-underline-offset: 5px !important; /* 글자와 밑줄 사이의 적절한 간격 확보 */
     text-decoration-thickness: 1px !important; /* 밑줄 두께 */
     text-decoration-color: rgba(0, 0, 0, 0.4) !important; /* 은은하고 미려한 검정색 톤의 밑줄 */
