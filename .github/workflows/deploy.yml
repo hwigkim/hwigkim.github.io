@@ -51,6 +51,11 @@ jobs:
         run: |
           python -c "import pyewts; converter = pyewts.pyewts(); val = converter.toUnicode('bod'); print('val:', repr(val), 'bytes:', val.encode('utf-8'))" > blog/diag.txt
 
+      - name: Diagnostic Plugin Python Check
+        run: |
+          python -c "import sys, re, pyewts; converter = pyewts.pyewts(); text = 'This is a test of Tibetan Wylie:\n1. tibwc*bod*\n2. tibwc*bkra shis bde legs*\n3. tibwc*bKa\' \'gyur*\n'; result = re.sub(r'tibwc\*(.*?)\*', lambda m: f'{converter.toUnicode(m.group(1))} *{m.group(1)}*', text); print('result repr:', repr(result)); print('result bytes:', result.encode(\"utf-8\"))" > blog/diag_plugin.txt
+
+
 
       - name: Build with Jekyll
         working-directory: blog
