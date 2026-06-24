@@ -685,6 +685,19 @@
     }
 
     convertHashtagsInPost();
+
+    // 한글이 포함된 헤더(h1~h6)의 이탤릭체 해제
+    function removeItalicForKoreanHeadings() {
+      const headings = document.querySelectorAll('article h1, article h2, article h3, article h4, article h5, article h6');
+      const hangulRegex = /[ㄱ-ㅎㅏ-ㅣ가-힣]/;
+      headings.forEach(heading => {
+        if (hangulRegex.test(heading.textContent)) {
+          heading.style.fontStyle = 'normal';
+        }
+      });
+    }
+
+    removeItalicForKoreanHeadings();
   })();
   </script>
 </body>
