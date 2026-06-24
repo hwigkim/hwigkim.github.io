@@ -19,6 +19,8 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
     content = doc.content
     if content && content.include?('tibwc*')
       $wylie_logs << "Found 'tibwc*' keyword in #{doc.path}"
+      $wylie_logs << "Input content length: #{content.length}"
+      $wylie_logs << "Input content: #{content.strip}"
 
       # 파이썬을 서브프로세스로 실행하여 Wylie 표기를 티베트 유니코드로 변환
       # PYTHONUTF8=1 환경변수를 설정하여 윈도우 인코딩 오류 방지
