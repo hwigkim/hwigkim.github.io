@@ -49,7 +49,7 @@ jobs:
 
       - name: Print Post Content
         run: |
-          cat blog/_posts/2026-06-24-tibetan-wylie-test.md > blog/post_content.txt
+          cat blog/_posts/2026-06-24-Wylie-Conversion-Guide.md > blog/post_content.txt
 
       - name: Build with Jekyll
         working-directory: blog
