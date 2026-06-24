@@ -1,7 +1,10 @@
 require 'open3'
 
-Jekyll::Hooks.register :documents, :pre_render do |doc|
-  next unless doc.extname == '.md'
+Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
+  # 파일 경로가 없거나 마크다운 파일이 아니면 건너뜁니다.
+  next unless doc.path
+  ext = File.extname(doc.path).downcase
+  next unless ext == '.md' || ext == '.markdown'
   
   content = doc.content
   if content && content.include?('tibwc*')
@@ -25,7 +28,7 @@ Jekyll::Hooks.register :documents, :pre_render do |doc|
     if status.success?
       doc.content = stdout
     else
-      Jekyll.logger.warn "Wylie Converter [Error]:", stderr
+      Jekyll.logger.warn "Wylie Converter [Error] on #{doc.path}:", stderr
     end
   end
 end
