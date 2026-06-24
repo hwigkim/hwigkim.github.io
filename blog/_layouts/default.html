@@ -71,13 +71,7 @@
       transform: translateX(0);
     }
 
-    /* 다크모드 대응 */
-    @media (prefers-color-scheme: dark) {
-      #sidebar {
-        background: #151515; /* Tufte CSS 다크모드 용지 색상 */
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
-      }
-    }
+
 
     /* 4. 사이드바 헤더 및 제목 (Tufte 스타일 제목) */
     .sidebar-header {
@@ -86,11 +80,7 @@
       padding-bottom: 0.5rem;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .sidebar-header {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-    }
+
 
     .sidebar-title {
       font-size: 1.5rem;
@@ -164,28 +154,7 @@
       color: #111;
     }
 
-    /* 다크모드 태그 스타일 */
-    @media (prefers-color-scheme: dark) {
-      .tag-item {
-        color: #aaa;
-      }
-      .tag-item:hover {
-        color: #fff;
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
-      }
-      .tag-item.active {
-        color: #fff;
-      }
-      .tag-item.active .tag-name {
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.8) 50%);
-      }
-      .tag-count {
-        color: #666;
-      }
-      .tag-item.active .tag-count {
-        color: #fff;
-      }
-    }
+
 
     /* 6. 모바일 오버레이 */
     #sidebar-overlay {
@@ -269,18 +238,7 @@
       background-image: none; /* Tufte 링크 언더라인 스타일 배제 */
     }
 
-    /* 다크모드 대응 */
-    @media (prefers-color-scheme: dark) {
-      #sidebar-toggle-btn, #home-btn {
-        background: #151515;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        color: #ddd;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      }
-      #sidebar-toggle-btn:hover, #home-btn:hover {
-        border-color: #fff;
-      }
-    }
+
 
     /* 8. 포스트 리스트 스타일 */
     #dynamic-posts-container {
@@ -353,25 +311,7 @@
       background-position: 0 95%;
     }
 
-    /* 다크모드 포스트 리스트 */
-    @media (prefers-color-scheme: dark) {
-      .post-item {
-        border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
-      }
-      .post-link {
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
-      }
-      .post-meta {
-        color: #888;
-      }
-      .post-tag-badge {
-        color: #888;
-      }
-      .post-tag-badge:hover {
-        color: #fff;
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.6) 50%);
-      }
-    }
+
 
     /* 9. PC 레이아웃 미디어 쿼리 (화면 가로 1024px 이상) */
     @media (min-width: 1024px) {

@@ -51,14 +51,6 @@ body {
     counter-reset: sidenote-counter;
 }
 
-/* Adds dark mode */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #151515;
-        color: #ddd;
-    }
-}
-
 h1 {
     font-weight: 400;
     margin-top: 4rem;
@@ -169,12 +161,6 @@ blockquote {
     margin-left: 0;
     margin-right: 0;
     padding: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-    blockquote {
-        color: #bbb;
-    }
 }
 
 blockquote p {
