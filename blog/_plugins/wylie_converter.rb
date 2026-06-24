@@ -7,10 +7,8 @@ Jekyll::Hooks.register [:documents, :pages], :pre_render do |doc|
   ext = File.extname(doc.path).downcase
   next unless ext == '.md' || ext == '.markdown'
   
-  # 디버그 로그 파일 경로 설정
-  debug_dir = doc.site.dest
-  FileUtils.mkdir_p(debug_dir)
-  debug_file = File.join(debug_dir, "wylie_debug.txt")
+  # 디버그 로그 파일 경로 설정 (소스 폴더에 작성하여 빌드 시 _site로 복사되도록 함)
+  debug_file = File.join(doc.site.source, "wylie_debug.txt")
   
   File.open(debug_file, "a:utf-8") do |f|
     f.puts "--- Processing: #{doc.path} ---"
