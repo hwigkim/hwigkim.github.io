@@ -724,17 +724,43 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: false });
 
-    document.addEventListener("DOMContentLoaded", function() {
-      const mermaidBlocks = document.querySelectorAll('pre code.language-mermaid');
-      mermaidBlocks.forEach(function(block) {
-        const pre = block.parentNode;
+    async function initMermaid() {
+      // Jekyll Rouge가 생성한 하이라이터 div 및 일반 Kramdown pre/code 탐색
+      const blocks = document.querySelectorAll('.language-mermaid, [class*="language-mermaid"]');
+      let hasMermaid = false;
+
+      blocks.forEach(function(block) {
+        if (block.classList.contains('mermaid')) return;
+
+        // block 자체가 code가 아니면 내부의 code 태그를 찾아 텍스트를 추출
+        const codeElement = block.tagName === 'CODE' ? block : block.querySelector('code');
+        if (!codeElement) return;
+
+        const rawText = codeElement.textContent;
+        
+        // 부모 container를 <div class="mermaid">로 교체
         const div = document.createElement('div');
         div.className = 'mermaid';
-        div.textContent = block.textContent;
-        pre.parentNode.replaceChild(div, pre);
+        div.textContent = rawText;
+        
+        block.parentNode.replaceChild(div, block);
+        hasMermaid = true;
       });
-      mermaid.run();
-    });
+
+      // 변환이 일어났거나 기존에 .mermaid 클래스가 존재할 경우 렌더링 실행
+      if (hasMermaid || document.querySelector('.mermaid')) {
+        await mermaid.run({
+          querySelector: '.mermaid'
+        });
+      }
+    }
+
+    // type="module"의 비동기 로드 타이밍을 고려하여 DOM 완료 상태를 체크합니다.
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      initMermaid();
+    } else {
+      document.addEventListener("DOMContentLoaded", initMermaid);
+    }
   </script>
 </body>
 </html>
