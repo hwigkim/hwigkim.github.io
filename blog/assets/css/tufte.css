@@ -267,7 +267,7 @@ img {
 }
 
 .sidenote:before {
-    content: counter(sidenote-counter) " ";
+    content: attr(data-number) " ";
     font-size: 1rem;
     top: -0.5rem;
 }

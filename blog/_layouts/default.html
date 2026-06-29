@@ -709,10 +709,15 @@
       wasMobile = isMobile;
 
       const wrappers = document.querySelectorAll('.sidenote-wrapper');
-      wrappers.forEach(wrapper => {
+      wrappers.forEach((wrapper, index) => {
         const input = wrapper.querySelector('input.margin-toggle');
         const note = wrapper.querySelector('.sidenote, .marginnote');
         if (!input || !note) return;
+
+        // 데이터 숫자 속성 설정 (주석 순서 저장)
+        if (!note.dataset.number) {
+          note.dataset.number = (index + 1).toString();
+        }
 
         if (isMobile) {
           // 모바일: 주석을 부모 블록(문단 p 등)의 맨 마지막으로 이동시켜 문장 중간에 끊기지 않도록 함
